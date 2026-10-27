@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <title>Pesquisadores Populares Interseccionais</title>
 <link rel="icon" href="logo.png">
@@ -236,6 +236,20 @@ td .gnum { display: inline-grid; place-items: center; width: 24px; height: 24px;
 .contato a { text-decoration: none; color: var(--tinta-2); }
 .contato a:hover { color: var(--tinta); text-decoration: underline; }
 .wa { color: #1f8a4c !important; font-weight: 500; }
+
+/* botões de ação por pessoa (tabela e balão do mapa) */
+.acoes-p { display: flex; gap: 6px; margin-top: 6px; }
+.acao { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; text-decoration: none; transition: transform .15s, filter .15s; }
+.acao:hover { transform: translateY(-1px); filter: brightness(1.08); }
+.acao svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.acoes-p .a-tel { background: var(--tinta); color: var(--papel); }
+.acoes-p .a-wa { background: #1f8a4c; color: #fff; }
+.acoes-p .a-mail { background: color-mix(in srgb, var(--azul) 16%, var(--painel)); color: var(--azul); }
+:root[data-theme="dark"] .acoes-p .a-mail { color: #8cc4f5; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .acoes-p .a-mail { color: #8cc4f5; } }
+
+/* navegação inferior (só no celular) */
+.nav-movel { display: none; }
 .vazio { padding: 30px; text-align: center; color: var(--apagado); }
 
 #tip { position: fixed; pointer-events: none; z-index: 2000; background: var(--tinta); color: var(--papel); font-size: 12px; padding: 6px 9px; border-radius: 8px; max-width: 260px; opacity: 0; transition: opacity .1s; }
@@ -313,9 +327,24 @@ footer p { margin: 0; opacity: .9; }
   .tabela td:nth-child(2) { grid-column: 2; }
   .tabela td[data-rot]::before { content: attr(data-rot) ": "; color: var(--apagado); font-size: 12px; }
   .tabela tr:hover td { background: none; }
-  .contato { flex-direction: row; flex-wrap: wrap; gap: 0 16px; white-space: normal; }
-  .contato a { padding: 5px 0; }
+  .tabela td.td-contato { order: 10; padding-top: 8px; }
+  .contato { white-space: normal; }
+  .contato .so-desktop { display: none; }
+  .tabela .acoes-p .acao { flex: 1; width: auto; height: 44px; border-radius: 12px; }
+  .tabela .acao svg { width: 20px; height: 20px; }
+
+  body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
+  #topo-btn { display: none; }
+  section[id] { scroll-margin-top: 130px; }
+  .nav-movel { display: grid; grid-template-columns: repeat(5, 1fr); position: fixed; left: 0; right: 0; bottom: 0; z-index: 1300;
+    background: var(--painel); border-top: 1px solid var(--linha); padding: 6px 4px calc(6px + env(safe-area-inset-bottom)); }
+  .nav-movel a { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 11px; color: var(--tinta-2); text-decoration: none; padding: 2px 0; }
+  .nav-movel svg { width: 40px; height: 26px; padding: 3px 10px; border-radius: 99px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .nav-movel a[aria-current="true"] { color: var(--verde-esc); font-weight: 500; }
+  .nav-movel a[aria-current="true"] svg { background: color-mix(in srgb, var(--verde) 18%, var(--painel)); }
+  :root[data-theme="dark"] .nav-movel a[aria-current="true"] { color: var(--barra); }
 }
+@media (max-width: 700px) and (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .nav-movel a[aria-current="true"] { color: var(--barra); } }
 @media (max-width: 560px) {
   .topo .sub { display: none; }
   .grupo-faixa { grid-template-columns: 1fr; }
@@ -340,6 +369,14 @@ footer p { margin: 0; opacity: .9; }
       <ellipse cx="50" cy="22" rx="12" ry="22" transform="rotate(270 50 50)"/><ellipse cx="50" cy="22" rx="12" ry="22" transform="rotate(315 50 50)"/>
       <circle cx="50" cy="50" r="13"/></g></g>
     <path id="estrela" fill="#fff" d="M50 0C54 36 64 46 100 50C64 54 54 64 50 100C46 64 36 54 0 50C36 46 46 36 50 0Z"/>
+    <!-- ícones de traço (viewBox 0 0 24 24) -->
+    <path id="i-tel" d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/>
+    <path id="i-wa" d="M7.9 20A9 9 0 1 0 4 16.1L2 22z"/>
+    <g id="i-mail"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-9 5.7a2 2 0 0 1-2 0L2 7"/></g>
+    <path id="i-inicio" d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>
+    <g id="i-grupos"><circle cx="9" cy="8" r="4"/><path d="M2 21v-1a6 6 0 0 1 6-6h2a6 6 0 0 1 6 6v1M16 3.1a4 4 0 0 1 0 7.8M22 21v-1a6 6 0 0 0-4-5.6"/></g>
+    <path id="i-mapa" d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2zM9 4v14M15 6v14"/>
+    <path id="i-perfil" d="M3 21h18M6 17v-6M11 17V5M16 17v-8"/>
   </defs>
 </svg>
 
@@ -426,7 +463,7 @@ footer p { margin: 0; opacity: .9; }
       <div class="grupos-grid" id="grupos-grid"></div>
     </section>
 
-    <section>
+    <section id="sec-mapa">
       <div class="titulo"><h2>Onde moram</h2></div>
       <div class="duas">
         <div class="painel">
@@ -442,7 +479,7 @@ footer p { margin: 0; opacity: .9; }
       </div>
     </section>
 
-    <section>
+    <section id="sec-perfil">
       <div class="titulo"><h2>Perfil</h2></div>
       <div class="graficos">
         <div class="painel"><h3>Escolaridade</h3><p class="nota" style="margin:0">Clique para filtrar.</p><div class="barras" id="g-escolaridade"></div></div>
@@ -451,7 +488,7 @@ footer p { margin: 0; opacity: .9; }
       </div>
     </section>
 
-    <section>
+    <section id="sec-contatos">
       <div class="titulo"><h2>Contatos</h2></div>
       <div class="painel">
         <div class="tabela-topo">
@@ -487,6 +524,14 @@ footer p { margin: 0; opacity: .9; }
       <p id="rodape"></p>
     </div>
   </footer>
+
+  <nav class="nav-movel" aria-label="Seções do painel">
+    <a href="#" data-alvo="inicio"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-inicio"/></svg>Início</a>
+    <a href="#sec-grupos" data-alvo="grupos"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-grupos"/></svg>Grupos</a>
+    <a href="#sec-mapa" data-alvo="sec-mapa"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-mapa"/></svg>Mapa</a>
+    <a href="#sec-perfil" data-alvo="sec-perfil"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-perfil"/></svg>Perfil</a>
+    <a href="#sec-contatos" data-alvo="sec-contatos"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-tel"/></svg>Contatos</a>
+  </nav>
 </div>
 <div id="tip" role="tooltip"></div>
 <button id="topo-btn" type="button" aria-label="Voltar ao topo" title="Voltar ao topo">↑</button>
@@ -614,6 +659,14 @@ function iniciar(D) {
   const contar = (arr, k) => arr.reduce((m, p) => m.set(p[k], (m.get(p[k]) || 0) + 1), new Map());
   const wa = (cel) => { const d = (cel.split("/")[0] || "").replace(/\D/g, ""); return d.length >= 10 ? "https://wa.me/55" + d : null; };
   const tel = (cel) => cel.split("/")[0].replace(/\D/g, "");
+  function acoes(p) {
+    const w = wa(p.celular);
+    const b = (cls, href, rot, ic, fora) => `<a class="acao ${cls}" href="${esc(href)}" title="${rot}" aria-label="${rot}: ${esc(p.nome)}"${fora ? ' target="_blank" rel="noopener"' : ""}>
+      <svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-${ic}"/></svg></a>`;
+    return `<div class="acoes-p">${p.celular ? b("a-tel", "tel:" + tel(p.celular), "Ligar", "tel") : ""}${
+      w ? b("a-wa", `${w}?text=${encodeURIComponent(`Olá, ${p.nome.split(" ")[0]}!`)}`, "WhatsApp", "wa", 1) : ""}${
+      p.email ? b("a-mail", "mailto:" + p.email, "E-mail", "mail") : ""}</div>`;
+  }
 
   /* ---- Tooltip ---- */
   const tip = $("#tip");
@@ -755,12 +808,9 @@ function iniciar(D) {
     F.forEach((p) => {
       if (p.lat == null) return;
       const ic = L.divIcon({ className: "", html: `<div class="pin" style="background:${css(`--g${p.grupo ?? 0}`)};color:${gtxt(p.grupo)}">${p.grupo ?? "?"}</div>`, iconSize: [22, 22], iconAnchor: [11, 11] });
-      const w = wa(p.celular);
       L.marker([p.lat, p.lon], { icon: ic, title: p.nome, keyboard: true }).bindPopup(
         `<b>${esc(p.nome)}</b><br>${p.grupo ? "Grupo " + p.grupo : "Sem grupo"} · ${esc(p.cidade)}<br>${esc(p.endereco)}<br>CEP ${esc(p.cep)}
-         <div class="pop-contato">${p.celular ? `<a href="tel:${esc(tel(p.celular))}">${esc(p.celular)}</a>` : ""}
-         ${w ? `<a class="wa" href="${w}" target="_blank" rel="noopener">WhatsApp</a>` : ""}
-         ${p.email ? `<a href="mailto:${esc(p.email)}">e-mail</a>` : ""}</div>`).addTo(camada);
+         ${p.celular ? `<div class="pop-contato">${esc(p.celular)}</div>` : ""}${acoes(p)}`).addTo(camada);
       pts.push([p.lat, p.lon]);
     });
     const perto = pts.filter(([la, lo]) => la > -17.2 && la < -14.4 && lo > -49.3 && lo < -46.4);
@@ -782,16 +832,14 @@ function iniciar(D) {
     const T = [...F].sort((a, b) => dir * String(a[k] ?? "~").localeCompare(String(b[k] ?? "~"), "pt-BR", { numeric: true }));
     $("#tab-titulo").textContent = `${pp(T.length)}`;
     $("#tbody").innerHTML = T.length ? T.map((p) => {
-      const w = wa(p.celular);
       const partes = p.nome.split(" ").filter((x, i) => i === 0 || x.length > 2);
       const sig = (partes[0][0] || "") + (partes.length > 1 ? partes[partes.length - 1][0] : "");
       const cor = `--gcor:${gcor(p.grupo)};--gtxt:${gtxt(p.grupo)}`;
       return `<tr><td><div class="pessoa"><span class="avatar" style="${cor}" aria-hidden="true">${esc(sig.toUpperCase())}</span><b>${esc(p.nome)}</b></div></td>
         <td><span class="gnum" style="background:${gcor(p.grupo)};${cor}" data-tip="${p.grupo ? esc(G[p.grupo].nome + " · " + G[p.grupo].monitores_curto) : "Sem grupo"}">${p.grupo ?? "?"}</span></td>
         <td data-rot="Cidade/RA">${esc(p.cidade)}${p.uf && p.uf !== "Distrito Federal" ? " / " + esc(p.uf) : ""}</td>
-        <td><div class="contato">${p.celular ? `<a href="tel:${esc(tel(p.celular))}">${esc(p.celular)}</a>` : ""}
-          ${w ? `<a class="wa" href="${w}" target="_blank" rel="noopener">WhatsApp</a>` : ""}
-          ${p.email ? `<a href="mailto:${esc(p.email)}">${esc(p.email)}</a>` : ""}</div></td>
+        <td class="td-contato"><div class="contato">${p.celular ? `<a href="tel:${esc(tel(p.celular))}">${esc(p.celular)}</a>` : ""}
+          ${p.email ? `<a class="so-desktop" href="mailto:${esc(p.email)}">${esc(p.email)}</a>` : ""}${acoes(p)}</div></td>
         <td data-rot="Endereço">${esc(p.endereco)}<br><small style="color:var(--apagado)">CEP ${esc(p.cep)}</small></td>
         <td data-rot="Escolaridade">${esc(p.escolaridade)}</td><td data-rot="Formação">${esc(p.formacao)}</td></tr>`;
     }).join("") : `<tr><td colspan="7" class="vazio">Nenhum pesquisador popular com esses filtros.</td></tr>`;
@@ -827,6 +875,25 @@ function iniciar(D) {
     const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -60px 0px" });   // sem threshold: seções longas (lista no celular) nunca ficam 6% visíveis
     document.querySelectorAll("main > section").forEach((sec, i) => { if (i > 1) { sec.classList.add("revela"); io.observe(sec); } });
   }
+  // navegação inferior (celular): rola até a seção, descontando a barra de filtros fixa, e marca a seção atual
+  const navLinks = [...document.querySelectorAll(".nav-movel a")];
+  const secaoDe = (alvo) => alvo === "inicio" ? null : alvo === "grupos" ? ($("#sec-grupos").hidden ? $("#sec-grupo") : $("#sec-grupos")) : $("#" + alvo);
+  navLinks.forEach((a) => a.addEventListener("click", (e) => {
+    e.preventDefault();
+    const sec = secaoDe(a.dataset.alvo);
+    const y = sec ? sec.getBoundingClientRect().top + scrollY - $(".filtros").offsetHeight - 12 : 0;
+    scrollTo({ top: y, behavior: reduzMov ? "auto" : "smooth" });
+  }));
+  const marcarNav = () => {
+    const linha = $(".filtros").offsetHeight + 60;
+    let atual = "inicio";
+    navLinks.forEach((a) => { const sec = secaoDe(a.dataset.alvo); if (sec && !sec.hidden && sec.getBoundingClientRect().top < linha) atual = a.dataset.alvo; });
+    if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4) atual = "sec-contatos";
+    navLinks.forEach((a) => a.setAttribute("aria-current", String(a.dataset.alvo === atual)));
+  };
+  addEventListener("scroll", marcarNav, { passive: true });
+  marcarNav();
+
   const topoBtn = $("#topo-btn");
   addEventListener("scroll", () => topoBtn.classList.toggle("vis", scrollY > 700), { passive: true });
   topoBtn.addEventListener("click", () => scrollTo({ top: 0, behavior: reduzMov ? "auto" : "smooth" }));
